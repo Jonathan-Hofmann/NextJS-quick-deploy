@@ -7,8 +7,10 @@ Add or edit the `.env.local` and add the following to it.
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://{YOUR-SUPABASE-ID}.supabase.co/
-NEXT_PUBLIC_SUPABASE_ANON_KEY={YOUR-SUPABASE-ANON-KEY}
+NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR-SUPABASE-ANON-KEY
 ```
+
+> You can find your API keys under the following link: [API Keys](https://supabase.com/dashboard/project/_/settings/api)
 
 ### 2. Update the `src/contexts/auth.tsx`
 Per default for `/app/...` the user needs to be authenticated. If not a fullscreen login UI will be presented.
