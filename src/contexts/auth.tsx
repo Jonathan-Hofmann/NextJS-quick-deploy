@@ -2,6 +2,7 @@
 import { NotLoggedIn } from '@/components/auth/authBlock';
 import { AuthWrapper } from '@/components/auth/wrapper';
 import { Dialog } from '@/components/ui/dialog';
+import { Spinner } from '@/components/utils/spinner';
 import supabase from '@/lib/supabase';
 import { usePathname } from 'next/navigation';
 import React, { createContext, useState, useContext, useMemo, useEffect } from 'react';
@@ -34,7 +35,7 @@ export const AuthProvider = ({ children }: { children: any }) => {
 
     const [user, setUser] = useState<undefined | any>()
     const [showAuthUi, toggleAuthUi] = useState<boolean>(false)
-    const [isLoading, toggleLoading] = useState(false);
+    const [isLoading, toggleLoading] = useState(true);
     const path = usePathname();
     let currentSession:any;
 
@@ -93,10 +94,12 @@ export const AuthProvider = ({ children }: { children: any }) => {
 
             if (session && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED')) {
                 setUser(session.user);
+                toggleLoading(false);
             }
 
             if (event === 'SIGNED_OUT') {
                 setUser(null);
+                toggleLoading(false);
             }
         });
 
@@ -114,7 +117,13 @@ export const AuthProvider = ({ children }: { children: any }) => {
                     {user ?
                         <>{children}</>
                     :
-                        <NotLoggedIn/>
+                        <>
+                            {isLoading ?
+                                <Spinner/>
+                            :
+                                <NotLoggedIn/>
+                            }
+                        </>
                     }
                 </>
             :
